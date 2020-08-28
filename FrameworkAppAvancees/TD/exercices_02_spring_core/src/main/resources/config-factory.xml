@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="robot" class="ex.Robot">
+		<constructor-arg ref="commandUnit" />
+		<constructor-arg ref="transmitter" />
+		<constructor-arg ref="supplier" />
+	</bean>
+
+	<bean id="commandUnit" class="ex.CommandUnit" />
+
+	<bean id="transmitter" class="ex.RadioTransmitter">
+		<property name="driver" ref="driver" />
+	</bean>
+
+	<bean id="driver" class="ex.RadioDriver" />
+
+	<bean id="supplier" class="ex.EnergySupplier">
+		<constructor-arg ref="nuclearTank"/>
+	</bean>
+	
+	<bean id="nuclearEnergyTankFactory" class="ex.NuclearEnergyTankFactory">
+		<constructor-arg value="Atchoum"></constructor-arg>
+	</bean>
+	
+	<bean id="nuclearTank" factory-bean="nuclearEnergyTankFactory" factory-method="getNuclearTank"/>
+	
+	<bean id="tank" class="ex.EnergyTankStaticFactory" factory-method="getDefaultTank" lazy-init="true"/>
+
+</beans>
